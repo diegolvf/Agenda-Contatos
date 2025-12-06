@@ -1,16 +1,19 @@
 package com.agenda.contatos.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name= "grupos")
+@Table(name = "grupos")
 public class Grupo implements Serializable {
 
     @Id
@@ -21,14 +24,18 @@ public class Grupo implements Serializable {
     @Column(nullable = false, unique = true)
     private String name;
 
-    //Constructor padrão sem argumentos, necessário para o JPA.
+    // Constructor padrão sem argumentos, necessário para o JPA.
     public Grupo() {
     }
 
-    //Constructor com argumentos, útil para criar novos objetos.
+    // Constructor com argumentos, útil para criar novos objetos.
     public Grupo(String name) {
         this.name = name;
     }
+    
+    //Relacionamento One-to-Many (com a entidade Contato)
+    @OneToMany(mappedBy = "grupo")
+    private List<Contato> contatos = new ArrayList<>();
 
     // ---Getters and Setters---
 
@@ -69,5 +76,5 @@ public class Grupo implements Serializable {
         } else if (!Id.equals(other.Id))
             return false;
         return true;
-    }   
+    }
 }

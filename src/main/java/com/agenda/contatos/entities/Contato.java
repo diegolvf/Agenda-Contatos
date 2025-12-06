@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,9 +23,9 @@ public class Contato implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    private LocalDate birtday;
+    private LocalDate birthday;
 
-    private String apelido;
+    private String nickname;
 
     @Column(unique = true)
     private String phonenumber;
@@ -34,11 +36,19 @@ public class Contato implements Serializable {
 
     private String occupation;
 
-    
+    //Relacionamento Many-to-One (com a entidade Grupo)
+    @ManyToOne
+    @JoinColumn(name = "grupo_id", nullable = false)
+    private Grupo grupo;
+
     // ---Getters and Setters---
-    
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -49,20 +59,20 @@ public class Contato implements Serializable {
         this.name = name;
     }
 
-    public LocalDate getBirtday() {
-        return birtday;
+    public LocalDate getBirthday() {
+        return birthday;
     }
 
-    public void setBirtday(LocalDate birtday) {
-        this.birtday = birtday;
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
     }
 
-    public String getApelido() {
-        return apelido;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setApelido(String apelido) {
-        this.apelido = apelido;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getPhonenumber() {
