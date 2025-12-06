@@ -36,19 +36,18 @@ public class Contato implements Serializable {
 
     private String occupation;
 
-    //Relacionamento Many-to-One (com a entidade Grupo)
+    // Relacionamento Many-to-One (com a entidade Grupo)
     @ManyToOne
     @JoinColumn(name = "grupo_id", nullable = false)
     private Grupo grupo;
+
+    public Contato() {
+    }
 
     // ---Getters and Setters---
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -105,6 +104,14 @@ public class Contato implements Serializable {
 
     public void setOccupation(String occupation) {
         this.occupation = occupation;
+    }
+
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
     }
 
     // --- Métodos de Comparação (hashCode e equals) ---
