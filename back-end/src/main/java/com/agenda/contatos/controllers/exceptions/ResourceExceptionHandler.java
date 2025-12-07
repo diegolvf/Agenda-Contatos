@@ -13,7 +13,9 @@ import jakarta.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class ResourceExceptionHandler {
 
-    // Trata 404 - Recurso Não Encontrado
+    // ================================
+    // 404 - Resource Not Found
+    // ================================
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<StandardError> resourceNotFound(
             ResourceNotFoundException exception,
@@ -22,34 +24,55 @@ public class ResourceExceptionHandler {
         HttpStatus status = HttpStatus.NOT_FOUND;
 
         StandardError error = new StandardError();
+        error.setTimeStamp(Instant.now());
+        error.setStatus(status.value());
         error.setError("Resource not found");
         error.setMessage(exception.getMessage());
         error.setPath(request.getRequestURI());
-        error.setStatus(status.value());
-        error.setTimeStamp(Instant.now());
 
         return ResponseEntity.status(status).body(error);
     }
 
-    // Trata 422 - Erros de Validação (@Valid)
+    // ================================
+    // 422 - Validation Error (@Valid)
+    // ================================
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationError> validationException(
             MethodArgumentNotValidException exception,
             HttpServletRequest request) {
 
-        ValidationError error = new ValidationError();
         HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
 
+        ValidationError error = new ValidationError();
+        error.setTimeStamp(Instant.now());
+        error.setStatus(status.value());
         error.setError("Validation Error");
         error.setMessage("Campos inválidos na requisição.");
         error.setPath(request.getRequestURI());
-        error.setStatus(status.value());
-        error.setTimeStamp(Instant.now());
 
-        // Adiciona o campo e a mensagem de erro ao ValidationError
         exception.getBindingResult()
                 .getFieldErrors()
                 .forEach(e -> error.addError(e.getField(), e.getDefaultMessage()));
+
+        return ResponseEntity.status(status).body(error);
+    }
+
+    // ================================
+    // 400 - Database Error
+    // ================================
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<StandardError> databaseError(
+            DatabaseException exception,
+            HttpServletRequest request) {
+
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        StandardError error = new StandardError();
+        error.setTimeStamp(Instant.now());
+        error.setStatus(status.value());
+        error.setError("Database error");
+        error.setMessage(exception.getMessage());
+        error.setPath(request.getRequestURI());
 
         return ResponseEntity.status(status).body(error);
     }
