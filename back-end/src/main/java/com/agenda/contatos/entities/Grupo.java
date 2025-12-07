@@ -19,7 +19,7 @@ public class Grupo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private Long Id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String name;
@@ -39,8 +39,8 @@ public class Grupo implements Serializable {
 
     // ---Getters and Setters---
 
-    public Long getId() {
-        return Id;
+     public Long getId() {
+        return id;
     }
 
     public String getName() {
@@ -50,14 +50,22 @@ public class Grupo implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
+
+    public List<Contato> getContatos() {
+        return contatos;
+    }
+
+    public void setContatos(List<Contato> contatos) {
+        this.contatos = contatos;
+    }
+
     // --- Métodos de Comparação (hashCode e equals) ---
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((Id == null) ? 0 : Id.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
 
@@ -70,11 +78,15 @@ public class Grupo implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         Grupo other = (Grupo) obj;
-        if (Id == null) {
-            if (other.Id != null)
+        if (id == null) {
+            if (other.id != null)
                 return false;
-        } else if (!Id.equals(other.Id))
+        } else if (!id.equals(other.id))
             return false;
         return true;
     }
+
+    
+    
+
 }
