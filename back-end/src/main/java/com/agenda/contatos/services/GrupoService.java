@@ -24,15 +24,15 @@ public class GrupoService {
     // LISTAR TODOS
     public List<GrupoResponse> findAll() {
         return grupoRepository.findAll()
-                .stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
+            .stream()
+            .map(this::toResponse)
+            .collect(Collectors.toList());
     }
 
     // BUSCAR POR ID
     public GrupoResponse findById(Long id) {
         Grupo grupo = grupoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Grupo ID " + id + " não encontrado."));
+            .orElseThrow(() -> new ResourceNotFoundException("Grupo ID " + id + " não encontrado."));
         return toResponse(grupo);
     }
 
@@ -51,7 +51,7 @@ public class GrupoService {
     public GrupoResponse update(Long id, GrupoRequest request) {
 
         Grupo grupo = grupoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Grupo ID " + id + " não encontrado."));
+            .orElseThrow(() -> new ResourceNotFoundException("Grupo ID " + id + " não encontrado."));
 
         grupo.setName(request.name());
 
@@ -76,16 +76,16 @@ public class GrupoService {
     // BUSCAR POR NOME
     public List<GrupoResponse> searchByName(String name) {
         return grupoRepository.findByNameContainingIgnoreCase(name)
-                .stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
+            .stream()
+            .map(this::toResponse)
+            .collect(Collectors.toList());
     }
 
     // CONVERSÃO ENTIDADE → DTO
     private GrupoResponse toResponse(Grupo grupo) {
         return new GrupoResponse(
-                grupo.getId(),
-                grupo.getName()
+            grupo.getId(),
+            grupo.getName()
         );
     }
 }
