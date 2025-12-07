@@ -50,7 +50,7 @@ public class Grupo implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
+    
     // --- Métodos de Comparação (hashCode e equals) ---
 
     @Override

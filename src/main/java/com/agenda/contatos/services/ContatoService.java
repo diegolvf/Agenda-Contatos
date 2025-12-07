@@ -1,10 +1,13 @@
 package com.agenda.contatos.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.agenda.contatos.dtos.ContatoRequest;
+import com.agenda.contatos.dtos.ContatoResponse;
 import com.agenda.contatos.entities.Contato;
 import com.agenda.contatos.entities.Grupo;
 import com.agenda.contatos.repositories.ContatoRepository;
@@ -19,70 +22,111 @@ public class ContatoService {
     @Autowired
     private GrupoRepository grupoRepository;
 
-    // Listar todos
-    public List<Contato> findAll() {
-        return contatoRepository.findAll();
+    // LISTAR TODOS
+    public List<ContatoResponse> findAll() {
+        return contatoRepository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
     }
 
-    // Buscar por ID
-    public Contato findById(Long id) {
-        return contatoRepository.findById(id)
+    // BUSCAR POR ID
+    public ContatoResponse findById(Long id) {
+        Contato contato = contatoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Contato não encontrado."));
+        return toResponse(contato);
     }
 
-    // Criar contato
-    public Contato create(Contato contato, Long grupoId) {
+    // CRIAR CONTATO
+    public ContatoResponse create(ContatoRequest request) {
 
-        Grupo grupo = grupoRepository.findById(grupoId)
+        Grupo grupo = grupoRepository.findById(request.grupoId())
                 .orElseThrow(() -> new RuntimeException("Grupo não encontrado."));
 
+        Contato contato = new Contato();
+        contato.setName(request.name());
+        contato.setNickname(request.nickname());
+        contato.setEmail(request.email());
+        contato.setAddress(request.address());
+        contato.setPhonenumber(request.phonenumber());
+        contato.setOccupation(request.occupation());
         contato.setGrupo(grupo);
 
-        return contatoRepository.save(contato);
+        contatoRepository.save(contato);
+
+        return toResponse(contato);
     }
 
-    // Atualizar
-    public Contato update(Long id, Contato novo, Long grupoId) {
+    // Atualizar Contato
+    public ContatoResponse update(Long id, ContatoRequest request) {
 
-        Contato contato = findById(id);
-        Grupo grupo = grupoRepository.findById(grupoId)
+        Contato contato = contatoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Contato não encontrado."));
+
+        Grupo grupo = grupoRepository.findById(request.grupoId())
                 .orElseThrow(() -> new RuntimeException("Grupo não encontrado."));
 
-        contato.setName(novo.getName());
-        contato.setNickname(novo.getNickname());
-        contato.setEmail(novo.getEmail());
-        contato.setAddress(novo.getAddress());
-        contato.setBirthday(novo.getBirthday());
-        contato.setPhonenumber(novo.getPhonenumber());
-        contato.setOccupation(novo.getOccupation());
+        contato.setName(request.name());
+        contato.setNickname(request.nickname());
+        contato.setEmail(request.email());
+        contato.setAddress(request.address());
+        contato.setPhonenumber(request.phonenumber());
+        contato.setOccupation(request.occupation());
         contato.setGrupo(grupo);
 
-        return contatoRepository.save(contato);
+        contatoRepository.save(contato);
+
+        return toResponse(contato);
     }
 
-    // Remover
+    // Remover contato
     public void delete(Long id) {
         contatoRepository.deleteById(id);
     }
 
-    // Pesquisar por nome
-    public List<Contato> searchByName(String name) {
-        return contatoRepository.findByNameContainingIgnoreCase(name);
+    // Buscar por nome
+    public List<ContatoResponse> searchByName(String name) {
+        return contatoRepository.findByNameContainingIgnoreCase(name)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
     }
 
-    // Pesquisar por apelido
-    public List<Contato> searchByNickname(String nickname) {
-        return contatoRepository.findByNicknameContainingIgnoreCase(nickname);
+    // Buscar por apelido
+    public List<ContatoResponse> searchByNickname(String nickname) {
+        return contatoRepository.findByNicknameContainingIgnoreCase(nickname)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
     }
 
-    // Pesquisar por email
-    public List<Contato> searchByEmail(String email) {
-        return contatoRepository.findByEmail(email);
+    // Buscar por email
+    public List<ContatoResponse> searchByEmail(String email) {
+        return contatoRepository.findByEmail(email)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
     }
 
-    // Pesquisar por endereço
-    public List<Contato> searchByAddress(String address) {
-        return contatoRepository.findByAddressContainingIgnoreCase(address);
+    // BUSCAR por endereço
+    public List<ContatoResponse> searchByAddress(String address) {
+        return contatoRepository.findByAddressContainingIgnoreCase(address)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
     }
-    
+
+    // Conversão endidade para dto
+    private ContatoResponse toResponse(Contato contato) {
+        return new ContatoResponse(
+            contato.getId(),
+            contato.getName(),
+            contato.getNickname(),
+            contato.getEmail(),
+            contato.getAddress(),
+            contato.getPhonenumber(),
+            contato.getOccupation(),
+            contato.getGrupo().getName()
+        );
+    }
 }

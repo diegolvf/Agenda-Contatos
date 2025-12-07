@@ -10,6 +10,6 @@ import com.agenda.contatos.entities.Grupo;
 @Repository
 public interface GrupoRepository extends JpaRepository<Grupo, Long> {
 
-    List<Grupo> findByName(String name);
+    List<Grupo> findByNameContainingIgnoreCase(String name);
     
 }
