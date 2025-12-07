@@ -95,9 +95,9 @@ public class ContatoService {
     // BUSCAR POR NOME
     public List<ContatoResponse> searchByName(String name) {
         return contatoRepository.findByNameContainingIgnoreCase(name)
-                .stream()
-                .map(ContatoMapper::toResponse)
-                .collect(Collectors.toList());
+            .stream()
+            .map(ContatoMapper::toResponse)
+            .collect(Collectors.toList());
     }
 
     // BUSCAR POR APELIDO
