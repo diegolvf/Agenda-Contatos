@@ -1,0 +1,60 @@
+<div class="container mt-4">
+
+    <h2>Editar Contato</h2>
+
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+
+        <div class="mb-3">
+            <label>Nome</label>
+            <input class="form-control" formControlName="name">
+        </div>
+
+        <div class="mb-3">
+            <label>Apelido</label>
+            <input class="form-control" formControlName="nickname">
+        </div>
+
+        <div class="mb-3">
+            <label>Email</label>
+            <input class="form-control" formControlName="email" type="email">
+        </div>
+
+        <div class="mb-3">
+            <label>Telefone</label>
+            <input class="form-control" formControlName="phonenumber">
+        </div>
+
+        <div class="mb-3">
+            <label>Endereço</label>
+            <input class="form-control" formControlName="address">
+        </div>
+
+        <div class="mb-3">
+            <label>Ocupação</label>
+            <input class="form-control" formControlName="occupation">
+        </div>
+
+        <div class="mb-3">
+            <label>Data de Nascimento</label>
+            <input class="form-control" formControlName="birthday" type="date">
+        </div>
+
+        <div class="mb-3">
+            <label>Grupo</label>
+            <select class="form-select" formControlName="grupoId">
+                <option *ngFor="let g of grupos" [value]="g.id">
+                    {{ g.name }}
+                </option>
+            </select>
+        </div>
+
+        <button class="btn btn-success me-2" type="submit">
+            Salvar
+        </button>
+
+        <button class="btn btn-secondary" routerLink="/contatos">
+            Voltar
+        </button>
+
+    </form>
+</div>
