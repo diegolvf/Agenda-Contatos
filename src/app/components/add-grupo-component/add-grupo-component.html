@@ -1,0 +1,19 @@
+<div class="container mt-4">
+
+    <h2>Adicionar Grupo</h2>
+
+    <form [formGroup]="formGroupContato" (ngSubmit)="salvar()">
+
+        <div class="mb-3">
+            <label>Nome</label>
+            <input class="form-control" formControlName="name">
+        </div>
+
+        <button class="btn btn-success me-2" type="submit" onclick="salvar()">Salvar</button>
+
+        <button class="btn btn-secondary" routerLink="/contatos">
+            Voltar
+        </button>
+    </form>
+
+</div>

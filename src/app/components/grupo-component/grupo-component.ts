@@ -12,11 +12,12 @@ import { GrupoService } from '../../services/grupo-service';
 export class GrupoComponent implements OnInit {
 
   grupos: Grupo[] = [];
+  termoPesquisa: string = '';
 
   constructor(
     private grupoService: GrupoService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadGrupos();
@@ -29,7 +30,7 @@ export class GrupoComponent implements OnInit {
   }
 
   novo() {
-    this.router.navigate(['/grupos/novo']);
+    this.router.navigate(['add']);
   }
 
   editar(id: number) {
@@ -38,6 +39,7 @@ export class GrupoComponent implements OnInit {
 
   excluir(id: number) {
     if (confirm("Tem certeza que deseja excluir este grupo?")) {
+
       this.grupoService.delete(id).subscribe(() => {
         this.loadGrupos();
       });

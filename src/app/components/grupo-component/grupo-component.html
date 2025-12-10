@@ -1,0 +1,28 @@
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="m-0">Lista de Grupos 2</h2>
+        <button class="btn btn-primary btn-sm" (click)="novo()">Adicionar</button>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Grupo</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let g of grupos">
+                <td>{{ g.name }}</td>
+
+                <td>
+                    <button class="btn btn-primary btn-sm me-2" [routerLink]="['/grupos/info', g.id]">Alterar</button>
+                    <button class="btn btn-danger btn-sm" (click)="excluir(g.id)">Excluir</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

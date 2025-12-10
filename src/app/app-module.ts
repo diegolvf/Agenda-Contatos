@@ -13,7 +13,10 @@ import { FooterComponent } from './components/footer-component/footer-component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientJsonpModule, provideHttpClient } from '@angular/common/http';
 import { AddContatoComponent } from './components/add-contato-component/add-contato-component';
-
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { PhoneMaskDirective } from './components/mask/phone-mask.directive';
+import { AddGrupoComponent } from './components/add-grupo-component/add-grupo-component';
+import { GrupoInfo } from './components/grupo-info/grupo-info';
 
 
 
@@ -26,10 +29,10 @@ import { AddContatoComponent } from './components/add-contato-component/add-cont
     ContatoDetalheComponent,
     GrupoComponent,
     FooterComponent,
-    AddContatoComponent
-
-
-  
+    AddContatoComponent,
+    PhoneMaskDirective,
+    AddGrupoComponent,
+    GrupoInfo  
   ],
   imports: [
     BrowserModule,
@@ -37,11 +40,14 @@ import { AddContatoComponent } from './components/add-contato-component/add-cont
     FormsModule,
     ReactiveFormsModule,
     HttpClientJsonpModule,
-    NgbModule
+    NgbModule,
+    NgxMaskDirective,
+    NgxMaskPipe
   ],
   providers: [
     provideHttpClient(),
-    provideBrowserGlobalErrorListeners()
+    provideBrowserGlobalErrorListeners(),
+    provideNgxMask()
   ],
   bootstrap: [App]
 })
